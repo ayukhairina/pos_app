@@ -17,23 +17,25 @@ module.exports = {
     }
   },
 
-  sortData: async (request, response) => {
-    try {
-      const column = request.query.column
-      const result = await productModel.sortData(column)
-      response.json(result)
-    } catch (error) {
-      console.log(error)
-    }
-  },
+  //   sortData: async (request, response) => {
+  //     try {
+  //       const column = request.query.column
+  //       const result = await productModel.sortData(column)
+  //       miscHelper.response(response, 200, result)
+  //     } catch (error) {
+  //       console.log(error)
+  //       miscHelper.customErrorResponse(response, 404, 'Internal server error!')
+  //     }
+  //   },
 
   getDetail: async (request, response) => {
     try {
       const productId = request.params.productId
       const result = await productModel.getDetail(productId)
-      response.json(result)
+      miscHelper.response(response, 200, result)
     } catch (error) {
       console.log(error)
+      miscHelper.customErrorResponse(response, 404, 'Internal server error!')
     }
   },
 
@@ -50,9 +52,10 @@ module.exports = {
         data_updated: new Date()
       }
       const result = await productModel.insertData(data)
-      response.json(result)
+      miscHelper.response(response, 200, result)
     } catch (error) {
       console.log(error)
+      miscHelper.customErrorResponse(response, 404, 'Internal server error!')
     }
   },
 
@@ -69,9 +72,10 @@ module.exports = {
       }
       const productId = request.params.productId
       const result = await productModel.updateData(data, productId)
-      response.json(result)
+      miscHelper.response(response, 200, result)
     } catch (error) {
       console.log(error)
+      miscHelper.customErrorResponse(response, 404, 'Internal server error!')
     }
   },
 
@@ -79,9 +83,10 @@ module.exports = {
     try {
       const productId = request.params.productId
       const result = await productModel.deleteData(productId)
-      response.json(result)
+      miscHelper.response(response, 200, result)
     } catch (error) {
       console.log(error)
+      miscHelper.customErrorResponse(response, 404, 'Internal server error!')
     }
   }
 }

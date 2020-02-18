@@ -12,11 +12,11 @@ const storage = multer.diskStorage({
 })
 const upload = multer({ storage: storage })
 
-const { getAll, sortData, getDetail, insertData, updateData, deleteData } = require('../controllers/product')
+const { getAll, getDetail, insertData, updateData, deleteData } = require('../controllers/product')
 
 Route
   .get('/', getAll)
-  .get('/sort', sortData)
+// .get('/sort', sortData)
   .get('/:productId', getDetail)
   .post('/', upload.single('photo'), insertData)
   .patch('/:productId', updateData)

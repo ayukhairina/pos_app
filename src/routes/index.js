@@ -5,5 +5,5 @@ const productRouter = require('./product')
 
 Route
   .use('/product', productRouter)
-
+  .use('/uploads', express.static('./uploads'))
 module.exports = Route

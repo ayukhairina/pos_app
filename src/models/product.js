@@ -1,12 +1,26 @@
 const connection = require('../config/mysql')
 
 module.exports = {
-  getAll: (searchName, sortBy) => {
+  getAll: (data) => {
+    const sort = data.sort
+    const searchName = data.searchName
     return new Promise((resolve, reject) => {
-      connection.query(`SELECT * FROM product WHERE product_name LIKE '%${searchName}%'`, (error, result) => {
-        if (error) reject(new Error(error))
-        resolve(result)
-      })
+      if (searchName != null) {
+        connection.query('SELECT product.product_code as id, product.product_name as name, product.desc as description, product.photo as image, product.price as price,  product.stock, category.category_name, product.data_added, product.data_updated from product INNER JOIN category WHERE product.category = category.category_code AND product_name LIKE "%' + searchName + '%"', (error, result) => {
+          if (error) reject(new Error(error))
+          resolve(result)
+        })
+      } else if (sort != null) {
+        connection.query(`SELECT product.product_code as id, product.product_name as name, product.desc as description, product.photo as image, product.price as price,  product.stock, category.category_name, product.data_added, product.data_updated from product INNER JOIN category WHERE product.category = category.category_code ORDER by ${sort} ASC`, (error, result) => {
+          if (error) reject(new Error(error))
+          resolve(result)
+        })
+      } else {
+        connection.query('SELECT product.product_code as id, product.product_name as name, product.desc as description, product.photo as image, product.price as price,  product.stock, category.category_name as category, product.data_added, product.data_updated from product INNER JOIN category WHERE product.category = category.category_code', (error, result) => {
+          if (error) reject(new Error(error))
+          resolve(result)
+        })
+      }
     })
   },
 

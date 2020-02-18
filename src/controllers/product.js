@@ -3,8 +3,13 @@ const miscHelper = require('../helpers')
 module.exports = {
   getAll: async (request, response) => {
     try {
-      const searchName = request.query.product_name || ''
-      const result = await productModel.getAll(searchName)
+      const searchName = request.query.searchName
+      const sort = request.query.sort
+      const data = {
+        searchName,
+        sort
+      }
+      const result = await productModel.getAll(data)
       miscHelper.response(response, 200, result)
     } catch (error) {
       console.log(error)
@@ -37,7 +42,7 @@ module.exports = {
       const data = {
         product_name: request.body.product_name,
         desc: request.body.desc,
-        photo: request.file.path,
+        photo: `http://localhost:8004/uploads/${request.file.filename}`,
         price: request.body.price,
         category: request.body.category,
         stock: request.body.stock,

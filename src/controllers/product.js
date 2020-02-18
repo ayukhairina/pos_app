@@ -37,7 +37,7 @@ module.exports = {
       const data = {
         product_name: request.body.product_name,
         desc: request.body.desc,
-        photo: request.body.photo,
+        photo: request.file.path,
         price: request.body.price,
         category: request.body.category,
         stock: request.body.stock,
@@ -46,9 +46,8 @@ module.exports = {
       }
       const result = await productModel.insertData(data)
       response.json(result)
-    } 
-    catch (error) {
-      console.log(error)   
+    } catch (error) {
+      console.log(error)
     }
   },
 
@@ -66,8 +65,7 @@ module.exports = {
       const productId = request.params.productId
       const result = await productModel.updateData(data, productId)
       response.json(result)
-    }
-    catch (error) {
+    } catch (error) {
       console.log(error)
     }
   },

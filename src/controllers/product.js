@@ -5,8 +5,8 @@ module.exports = {
     try {
       const searchName = request.query.searchName
       const sort = request.query.sort
-      const pagination = request.params.pagination
-      const limit = request.headers.limit
+      const page = request.query.page
+      const limit = request.query.limit
       //   const page = request.query.page
       //   const limit = request.query.limit
       //   const startIndex = (page - 1) * limit

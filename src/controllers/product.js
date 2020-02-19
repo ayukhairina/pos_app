@@ -5,11 +5,20 @@ module.exports = {
     try {
       const searchName = request.query.searchName
       const sort = request.query.sort
+      const pagination = request.params.pagination
+      const limit = request.headers.limit
+      //   const page = request.query.page
+      //   const limit = request.query.limit
+      //   const startIndex = (page - 1) * limit
+      //   const endIndex = page * limit
       const data = {
         searchName,
-        sort
+        sort,
+        pagination,
+        limit
       }
       const result = await productModel.getAll(data)
+      // const result = result1.slice(startIndex, endIndex)
       miscHelper.response(response, 200, result)
     } catch (error) {
       console.log(error)
@@ -78,7 +87,6 @@ module.exports = {
       miscHelper.customErrorResponse(response, 404, 'Internal server error!')
     }
   },
-
   deleteData: async (request, response) => {
     try {
       const productId = request.params.productId

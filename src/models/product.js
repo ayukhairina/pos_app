@@ -4,6 +4,8 @@ module.exports = {
   getAll: (data) => {
     const sort = data.sort
     const searchName = data.searchName
+    const pagination = data.pagination
+    const limit = data.limit
     return new Promise((resolve, reject) => {
       if (searchName != null) {
         connection.query('SELECT product.product_code as id, product.product_name as name, product.desc as description, product.photo as image, product.price as price,  product.stock, category.category_name, product.data_added, product.data_updated from product INNER JOIN category WHERE product.category = category.category_code AND product_name LIKE "%' + searchName + '%"', (error, result) => {
@@ -12,6 +14,12 @@ module.exports = {
         })
       } else if (sort != null) {
         connection.query(`SELECT product.product_code as id, product.product_name as name, product.desc as description, product.photo as image, product.price as price,  product.stock, category.category_name, product.data_added, product.data_updated from product INNER JOIN category WHERE product.category = category.category_code ORDER by ${sort} ASC`, (error, result) => {
+          if (error) reject(new Error(error))
+          resolve(result)
+        })
+      } else if (pagination != null) {
+        const page = (pagination * limit) - limit
+        connection.query('SELECT product.product_code as id, product.product_name as name, product.desc as description, product.photo as image, product.price as price,  product.stock, category.category_name as category, product.data_added, product.data_updated from product INNER JOIN category WHERE product.category = category.category_code LIMIT ' + page + ',' + limit, (error, result) => {
           if (error) reject(new Error(error))
           resolve(result)
         })

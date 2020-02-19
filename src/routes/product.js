@@ -16,7 +16,7 @@ const { getAll, getDetail, insertData, updateData, deleteData } = require('../co
 
 Route
   .get('/', getAll)
-// .get('/sort', sortData)
+  .get('/page/:pagination', getAll)
   .get('/:productId', getDetail)
   .post('/', upload.single('photo'), insertData)
   .patch('/:productId', updateData)
